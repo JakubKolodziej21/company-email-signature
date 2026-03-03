@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generator Stopki — Meritoros</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #55BD79;
+    --green-dark: #3a9a5c;
+    --green-light: #e8f8ee;
+    --green-glow: rgba(85,189,121,0.18);
+    --bg: #f5f7f5;
+    --surface: #ffffff;
+    --surface2: #f0f5f1;
+    --text: #1a2420;
+    --text-muted: #6b7e74;
+    --border: #d8e8dc;
+    --radius: 16px;
+    --shadow: 0 4px 32px rgba(85,189,121,0.08), 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 48px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(85,189,121,0.07);
+  }
+  header img { height: 32px; }
+  header span {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    padding: 4px 12px;
+    background: var(--green-light);
+    border-radius: 20px;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── Layout ── */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 48px 48px 80px;
+    gap: 48px;
+    align-items: start;
+  }
+
+  /* ── Panel ── */
+  .panel {
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .panel-header {
+    padding: 24px 32px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .panel-header .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 0 3px var(--green-glow);
+  }
+  .panel-header h2 {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .panel-header p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-left: auto;
+  }
+
+  .panel-body { padding: 28px 32px 32px; }
+
+  /* ── Form ── */
+  .field { margin-bottom: 20px; }
+  .field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .field input {
+    width: 100%;
+    height: 46px;
+    padding: 0 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    background: var(--surface);
+    transition: border-color 0.18s, box-shadow 0.18s;
+    outline: none;
+  }
+  .field input:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px var(--green-glow);
+  }
+  .field input::placeholder { color: #b0c4b8; }
+
+  /* ── Preview ── */
+  .preview-panel { position: sticky; top: 96px; }
+
+  .preview-box {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 32px 28px;
+    font-size: 14px;
+    min-height: 180px;
+    position: relative;
+  }
+
+  /* simulated email chrome */
+  .email-chrome {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin-bottom: 0;
+  }
+  .email-chrome-bar {
+    background: #f0f0f0;
+    padding: 10px 16px;
+    display: flex;
+    gap: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .email-chrome-bar span {
+    width: 10px; height: 10px; border-radius: 50%;
+  }
+  .email-chrome-bar span:nth-child(1) { background: #ff5f57; }
+  .email-chrome-bar span:nth-child(2) { background: #febc2e; }
+  .email-chrome-bar span:nth-child(3) { background: #28c840; }
+  .email-body {
+    padding: 24px 24px 16px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #222;
+    line-height: 1.6;
+  }
+  .email-body p.greeting {
+    margin-bottom: 18px;
+    color: #444;
+  }
+
+  /* ── Copy button ── */
+  .copy-btn {
+    width: 100%;
+    height: 52px;
+    background: var(--green);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s, transform 0.12s, box-shadow 0.18s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    letter-spacing: -0.01em;
+    margin-top: 20px;
+    box-shadow: 0 4px 16px rgba(85,189,121,0.3);
+  }
+  .copy-btn:hover {
+    background: var(--green-dark);
+    box-shadow: 0 6px 24px rgba(85,189,121,0.4);
+    transform: translateY(-1px);
+  }
+  .copy-btn:active { transform: translateY(0); }
+
+  .copy-btn svg { width: 18px; height: 18px; }
+
+  .toast {
+    position: fixed;
+    bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--text);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 40px;
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    pointer-events: none;
+    display: flex; gap: 8px; align-items: center;
+    z-index: 999;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast-dot { width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0; }
+
+  /* hint */
+  .hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 14px;
+    text-align: center;
+    line-height: 1.6;
+  }
+  .hint strong { color: var(--green-dark); }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; padding: 24px 20px 60px; gap: 28px; }
+    .preview-panel { position: static; }
+    header { padding: 16px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <img src="https://meritoros.pl/wp-content/themes/meritoros-justidea/assets/img/logo.svg" alt="Meritoros" onerror="this.style.display='none';document.getElementById('fallback-logo').style.display='block'">
+  <div id="fallback-logo" style="display:none;font-weight:700;font-size:18px;color:#55BD79;letter-spacing:-0.02em;">MERITOROS</div>
+  <span>Generator stopki e-mail</span>
+</header>
+
+<div class="layout">
+
+  <!-- LEFT: Form -->
+  <div class="panel">
+    <div class="panel-header">
+      <div class="dot"></div>
+      <h2>Twoje dane</h2>
+      <p>Uzupełnij poniższe pola</p>
+    </div>
+    <div class="panel-body">
+      <div class="field">
+        <label>Imię i nazwisko</label>
+        <input type="text" id="name" placeholder="np. Jan Kowalski" oninput="updatePreview()">
+      </div>
+      <div class="field">
+        <label>Stanowisko</label>
+        <input type="text" id="title" placeholder="np. Specjalista ds. sprzedaży" oninput="updatePreview()">
+      </div>
+      <div class="field">
+        <label>Adres e-mail</label>
+        <input type="email" id="email" placeholder="np. jan.kowalski@meritoros.pl" oninput="updatePreview()">
+      </div>
+      <div class="field">
+        <label>Telefon komórkowy</label>
+        <input type="tel" id="phone" placeholder="np. +48 600 000 000" oninput="updatePreview()">
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Preview + Copy -->
+  <div class="panel preview-panel">
+    <div class="panel-header">
+      <div class="dot"></div>
+      <h2>Podgląd</h2>
+      <p>Wygląd w kliencie pocztowym</p>
+    </div>
+    <div class="panel-body">
+      <div class="email-chrome">
+        <div class="email-chrome-bar">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="email-body">
+          <p class="greeting">Pozdrawiam</p>
+          <!-- signature preview rendered here -->
+          <div id="sig-preview"></div>
+        </div>
+      </div>
+
+      <button class="copy-btn" onclick="copySignature()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+        Kopiuj stopkę do schowka
+      </button>
+      <p class="hint">Po skopiowaniu wklej stopkę (<strong>Ctrl+V</strong> lub <strong>⌘+V</strong>) bezpośrednio do ustawień podpisu w Outlooku lub Gmail.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast">
+  <div class="toast-dot"></div>
+  Stopka skopiowana do schowka!
+</div>
+
+<script>
+  function getValues() {
+    return {
+      name: document.getElementById('name').value.trim() || 'Imię Nazwisko',
+      title: document.getElementById('title').value.trim() || 'Stanowisko',
+      email: document.getElementById('email').value.trim() || 'email@meritoros.pl',
+      phone: document.getElementById('phone').value.trim() || '+48 000 000 000',
+    };
+  }
+
+  function buildSignatureHTML(v) {
+    return `<br><p style="font-family:Arial">Pozdrawiam</p><table cellpadding="0" cellspacing="0" style="vertical-align:-webkit-baseline-middle;font-size:medium;font-family:Arial"><tbody><tr><td><table cellpadding="0" cellspacing="0" style="vertical-align:-webkit-baseline-middle;font-size:medium;font-family:Arial"><tbody><tr><td style="vertical-align:middle"><h2 style="margin:0;font-size:18px;font-family:Arial;color:#000;font-weight:600"><span>${escHtml(v.name)}</span></h2><p style="margin:0;color:#000;font-size:14px;line-height:22px"><span>${escHtml(v.title)}</span></p><div style="margin:0;color:#000;font-size:14px;line-height:22px;font-weight:500"><span>MERITOROS SA</span></div></td><td width="30"><div style="width:30px"></div></td><td width="1" style="width:1px;height:auto;border-left:4px solid #44be78"></td><td width="30"><div style="width:30px"></div></td><td style="vertical-align:middle"><table cellpadding="0" cellspacing="0" style="vertical-align:-webkit-baseline-middle;font-size:medium;font-family:Arial"><tbody><tr style="vertical-align:middle;height:25px"><td width="30"><span style="display:inline-block"><img src="https://meritoros.pl/wp-content/uploads/2025/04/email-icon.png" alt="emailAddress" width="13"></span></td><td style="margin:0;color:#000;font-size:14px;line-height:22px"><a href="mailto:${escHtml(v.email)}" style="text-decoration:none;color:#000;font-size:14px"><span>${escHtml(v.email)}</span></a></td></tr><tr style="vertical-align:middle;height:25px"><td width="30"><span style="display:inline-block"><img src="https://meritoros.pl/wp-content/uploads/2025/04/phone-icon.png" alt="mobilePhone" width="13"></span></td><td style="margin:0;color:#000;font-size:14px;line-height:22px"><a href="tel:${escHtml(v.phone)}" style="text-decoration:none;color:#000;font-size:14px"><span>${escHtml(v.phone)}</span></a></td></tr><tr style="vertical-align:middle;height:25px"><td width="30"><span style="display:inline-block"><img src="https://meritoros.pl/wp-content/uploads/2025/04/link-icon.png" alt="website" width="13"></span></td><td style="margin:0;color:#000;font-size:14px;line-height:22px"><a href="https://meritoros.pl/" style="text-decoration:none;color:#000;font-size:14px"><span>meritoros.pl</span></a></td></tr><tr style="vertical-align:middle;height:25px"><td width="30"><span style="display:inline-block"><img src="https://meritoros.pl/wp-content/uploads/2025/04/address-icon.png" alt="address" width="13"></span></td><td style="margin:0;color:#000;font-size:14px;line-height:22px"><span>Aleja Pokoju 62/8, 31-564 Kraków</span></td></tr></tbody></table></td></tr></tbody></table></td></tr><tr><td><table cellpadding="0" cellspacing="0" style="vertical-align:-webkit-baseline-middle;font-size:medium;font-family:Arial;width:100%"><tbody><tr><td height="1"></td></tr><tr><td></td></tr><tr><td height="30"></td></tr></tbody></table></td></tr><tr><td><table cellpadding="0" cellspacing="0" style="vertical-align:-webkit-baseline-middle;font-size:medium;font-family:Arial;width:100%"><tbody><tr><td style="vertical-align:top"><a href="https://meritoros.pl"><img src="https://meritoros.pl/wp-content/uploads/2025/04/logo.png" width="130px" style="max-width:130px;display:inline-block"></a></td><td style="text-align:right;vertical-align:top"><table cellpadding="0" cellspacing="0" style="vertical-align:-webkit-baseline-middle;font-size:medium;font-family:Arial;margin:0;padding:0;text-align:right;display:inline-block"><tbody><tr style="text-align:right"><td><a href="https://www.facebook.com/Meritoros" style="display:inline-block;padding:0;border-radius:50%"><img src="https://meritoros.pl/wp-content/uploads/2025/04/facebook-icon-dark.png" alt="facebook" width="24" loading="lazy" style="max-width:135px;display:block;border-radius:50%"></a></td><td width="5"><div style="width:5px"></div></td><td><a href="https://www.linkedin.com/company/meritoros/" style="display:inline-block;padding:0;border-radius:50%"><img src="https://meritoros.pl/wp-content/uploads/2025/04/linkedin-icon-dark.png" alt="linkedin" width="24" loading="lazy" style="max-width:135px;display:block;border-radius:50%"></a></td><td width="5"><div style="width:5px"></div></td><td><a href="https://www.instagram.com/meritoros/" style="display:inline-block;padding:0;border-radius:50%"><img src="https://meritoros.pl/wp-content/uploads/2025/04/instagram-icon-dark.png" alt="instagram" width="24" loading="lazy" style="max-width:135px;display:block;border-radius:50%"></a></td></tr></tbody></table></td></tr></tbody></table></td></tr><tr><td colspan="5" align="center"><br><p style="font-size:12px;color:silver;margin:0;max-width:100%;text-align:center;">Uwaga: Niniejsza wiadomość może zawierać informacje poufne. Jeśli nie jesteś jej zamierzonym odbiorcą, prosimy o jej usunięcie.</p></td></tr></tbody></table>`;
+  }
+
+  function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function buildPreviewHTML(v) {
+    const emailDisplay = v.email !== 'email@meritoros.pl' ? v.email : 'email@meritoros.pl';
+    const phoneDisplay = v.phone !== '+48 000 000 000' ? v.phone : '+48 000 000 000';
+    return `
+      <table cellpadding="0" cellspacing="0" style="font-family:Arial;font-size:14px">
+        <tr>
+          <td style="vertical-align:middle;padding-right:0">
+            <div style="font-size:17px;font-weight:700;color:#111;margin-bottom:2px">${escHtml(v.name)}</div>
+            <div style="font-size:13px;color:#444;margin-bottom:1px">${escHtml(v.title)}</div>
+            <div style="font-size:13px;font-weight:600;color:#222">MERITOROS SA</div>
+          </td>
+          <td style="width:24px"><div style="width:24px"></div></td>
+          <td style="border-left:4px solid #44be78;width:1px"></td>
+          <td style="width:16px"></td>
+          <td style="vertical-align:middle">
+            <table cellpadding="0" cellspacing="0">
+              <tr style="height:22px">
+                <td style="width:24px;vertical-align:middle"><img src="https://meritoros.pl/wp-content/uploads/2025/04/email-icon.png" width="13"></td>
+                <td style="font-size:13px;color:#111">${escHtml(emailDisplay)}</td>
+              </tr>
+              <tr style="height:22px">
+                <td style="width:24px;vertical-align:middle"><img src="https://meritoros.pl/wp-content/uploads/2025/04/phone-icon.png" width="13"></td>
+                <td style="font-size:13px;color:#111">${escHtml(phoneDisplay)}</td>
+              </tr>
+              <tr style="height:22px">
+                <td style="width:24px;vertical-align:middle"><img src="https://meritoros.pl/wp-content/uploads/2025/04/link-icon.png" width="13"></td>
+                <td style="font-size:13px;color:#111">meritoros.pl</td>
+              </tr>
+              <tr style="height:22px">
+                <td style="width:24px;vertical-align:middle"><img src="https://meritoros.pl/wp-content/uploads/2025/04/address-icon.png" width="13"></td>
+                <td style="font-size:13px;color:#111">Aleja Pokoju 62/8, 31-564 Kraków</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr><td colspan="5" height="20"></td></tr>
+        <tr>
+          <td colspan="5">
+            <table cellpadding="0" cellspacing="0" style="width:100%">
+              <tr>
+                <td><a href="https://meritoros.pl"><img src="https://meritoros.pl/wp-content/uploads/2025/04/logo.png" width="110" style="display:block"></a></td>
+                <td style="text-align:right;vertical-align:middle">
+                  <a href="https://www.facebook.com/Meritoros"><img src="https://meritoros.pl/wp-content/uploads/2025/04/facebook-icon-dark.png" width="22" style="display:inline-block;margin-right:4px"></a>
+                  <a href="https://www.linkedin.com/company/meritoros/"><img src="https://meritoros.pl/wp-content/uploads/2025/04/linkedin-icon-dark.png" width="22" style="display:inline-block;margin-right:4px"></a>
+                  <a href="https://www.instagram.com/meritoros/"><img src="https://meritoros.pl/wp-content/uploads/2025/04/instagram-icon-dark.png" width="22" style="display:inline-block"></a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr><td colspan="5" height="10"></td></tr>
+        <tr>
+          <td colspan="5" style="font-size:11px;color:silver;text-align:center">
+            Uwaga: Niniejsza wiadomość może zawierać informacje poufne. Jeśli nie jesteś jej zamierzonym odbiorcą, prosimy o jej usunięcie.
+          </td>
+        </tr>
+      </table>
+    `;
+  }
+
+  function updatePreview() {
+    const v = getValues();
+    document.getElementById('sig-preview').innerHTML = buildPreviewHTML(v);
+  }
+
+  async function copySignature() {
+    const v = getValues();
+    const html = buildSignatureHTML(v);
+
+    try {
+      const blob = new Blob([html], { type: 'text/html' });
+      const clipItem = new ClipboardItem({ 'text/html': blob });
+      await navigator.clipboard.write([clipItem]);
+    } catch(e) {
+      // fallback
+      const ta = document.createElement('textarea');
+      ta.value = html;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+    showToast();
+  }
+
+  function showToast() {
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  // init preview on load
+  updatePreview();
+</script>
+</body>
+</html>
