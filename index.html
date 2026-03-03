@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Generator Stopki — Meritoros</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
 <style>
   :root {
     --green: #55BD79;
@@ -17,234 +17,130 @@
     --text: #1a2420;
     --text-muted: #6b7e74;
     --border: #d8e8dc;
+    --border-err: #e05c5c;
     --radius: 16px;
     --shadow: 0 4px 32px rgba(85,189,121,0.08), 0 1px 4px rgba(0,0,0,0.06);
   }
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 0;
-  }
-
-  /* ── Header ── */
   header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 20px 48px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    padding: 18px 48px; display: flex; align-items: center; gap: 16px;
+    position: sticky; top: 0; z-index: 100;
     box-shadow: 0 2px 12px rgba(85,189,121,0.07);
   }
-  header img { height: 32px; }
-  header span {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-muted);
-    padding: 4px 12px;
-    background: var(--green-light);
-    border-radius: 20px;
-    letter-spacing: 0.02em;
+  header img { height: 30px; }
+  .header-badge {
+    font-size: 12px; font-weight: 600; color: var(--green-dark);
+    padding: 3px 11px; background: var(--green-light); border-radius: 20px; letter-spacing: 0.03em;
   }
 
-  /* ── Layout ── */
   .layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 48px 48px 80px;
-    gap: 48px;
-    align-items: start;
+    display: grid; grid-template-columns: 1fr 1fr;
+    max-width: 1300px; margin: 0 auto;
+    padding: 44px 48px 80px; gap: 44px; align-items: start;
   }
 
-  /* ── Panel ── */
-  .panel {
-    background: var(--surface);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    overflow: hidden;
-    border: 1px solid var(--border);
-  }
-
+  .panel { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; border: 1px solid var(--border); }
   .panel-header {
-    padding: 24px 32px 20px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    padding: 22px 30px 18px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px;
   }
-  .panel-header .dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--green);
-    box-shadow: 0 0 0 3px var(--green-glow);
-  }
-  .panel-header h2 {
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-  .panel-header p {
-    font-size: 13px;
-    color: var(--text-muted);
-    margin-left: auto;
-  }
+  .panel-header .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 3px var(--green-glow); flex-shrink: 0; }
+  .panel-header h2 { font-size: 14px; font-weight: 600; letter-spacing: -0.01em; }
+  .panel-header p { font-size: 12px; color: var(--text-muted); margin-left: auto; }
+  .panel-body { padding: 26px 30px 30px; }
 
-  .panel-body { padding: 28px 32px 32px; }
+  /* Language tabs */
+  .lang-tabs { display: flex; gap: 6px; margin-bottom: 24px; }
+  .lang-tab {
+    flex: 1; height: 38px; border: 1.5px solid var(--border); border-radius: 9px;
+    background: var(--surface); font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 600; color: var(--text-muted);
+    cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 5px;
+  }
+  .lang-tab:hover { border-color: var(--green); color: var(--green-dark); }
+  .lang-tab.active { background: var(--green); border-color: var(--green); color: #fff; box-shadow: 0 3px 12px rgba(85,189,121,0.3); }
 
-  /* ── Form ── */
-  .field { margin-bottom: 20px; }
-  .field label {
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 8px;
+  /* Form */
+  .field { margin-bottom: 18px; }
+  .field label { display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 7px; }
+  .field input, .field select {
+    width: 100%; height: 44px; padding: 0 14px;
+    border: 1.5px solid var(--border); border-radius: 10px;
+    font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text);
+    background: var(--surface); transition: border-color 0.18s, box-shadow 0.18s; outline: none;
+    appearance: none; -webkit-appearance: none;
   }
-  .field input {
-    width: 100%;
-    height: 46px;
-    padding: 0 16px;
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    color: var(--text);
-    background: var(--surface);
-    transition: border-color 0.18s, box-shadow 0.18s;
-    outline: none;
-  }
-  .field input:focus {
-    border-color: var(--green);
-    box-shadow: 0 0 0 3px var(--green-glow);
-  }
+  .field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7e74' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; cursor: pointer; }
+  .field input:focus, .field select:focus { border-color: var(--green); box-shadow: 0 0 0 3px var(--green-glow); }
   .field input::placeholder { color: #b0c4b8; }
+  .field input.error { border-color: var(--border-err); box-shadow: 0 0 0 3px rgba(224,92,92,0.12); }
+  .field-error { font-size: 11px; color: var(--border-err); margin-top: 5px; display: none; }
+  .field input.error ~ .field-error { display: block; }
 
-  /* ── Preview ── */
-  .preview-panel { position: sticky; top: 96px; }
+  .phone-row { display: flex; gap: 8px; }
+  .phone-prefix { width: 120px !important; flex-shrink: 0; }
+  .phone-number { flex: 1; width: auto !important; }
 
-  .preview-box {
-    background: var(--surface2);
-    border-radius: 10px;
-    padding: 32px 28px;
-    font-size: 14px;
-    min-height: 180px;
-    position: relative;
-  }
+  .preview-panel { position: sticky; top: 84px; }
 
-  /* simulated email chrome */
-  .email-chrome {
-    background: #fff;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    overflow: hidden;
-    margin-bottom: 0;
-  }
-  .email-chrome-bar {
-    background: #f0f0f0;
-    padding: 10px 16px;
-    display: flex;
-    gap: 6px;
-    border-bottom: 1px solid var(--border);
-  }
-  .email-chrome-bar span {
-    width: 10px; height: 10px; border-radius: 50%;
-  }
+  .email-chrome { background: #fff; border-radius: 12px; border: 1px solid var(--border); overflow: hidden; }
+  .email-chrome-bar { background: #f0f0f0; padding: 9px 14px; display: flex; gap: 5px; border-bottom: 1px solid var(--border); }
+  .email-chrome-bar span { width: 10px; height: 10px; border-radius: 50%; }
   .email-chrome-bar span:nth-child(1) { background: #ff5f57; }
   .email-chrome-bar span:nth-child(2) { background: #febc2e; }
   .email-chrome-bar span:nth-child(3) { background: #28c840; }
-  .email-body {
-    padding: 24px 24px 16px;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    color: #222;
-    line-height: 1.6;
-  }
-  .email-body p.greeting {
-    margin-bottom: 18px;
-    color: #444;
-  }
+  .email-body { padding: 20px 22px 16px; font-family: Arial, sans-serif; font-size: 14px; color: #222; line-height: 1.6; }
+  .email-body p.greeting { margin-bottom: 16px; color: #444; font-family: Arial; }
 
-  /* ── Copy button ── */
   .copy-btn {
-    width: 100%;
-    height: 52px;
-    background: var(--green);
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
+    width: 100%; height: 50px; background: var(--green); color: #fff;
+    border: none; border-radius: 12px; font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 600; cursor: pointer;
     transition: background 0.18s, transform 0.12s, box-shadow 0.18s;
     display: flex; align-items: center; justify-content: center; gap: 8px;
-    letter-spacing: -0.01em;
-    margin-top: 20px;
-    box-shadow: 0 4px 16px rgba(85,189,121,0.3);
+    margin-top: 18px; box-shadow: 0 4px 16px rgba(85,189,121,0.28);
   }
-  .copy-btn:hover {
-    background: var(--green-dark);
-    box-shadow: 0 6px 24px rgba(85,189,121,0.4);
-    transform: translateY(-1px);
-  }
+  .copy-btn:hover { background: var(--green-dark); box-shadow: 0 6px 24px rgba(85,189,121,0.38); transform: translateY(-1px); }
   .copy-btn:active { transform: translateY(0); }
+  .copy-btn svg { width: 16px; height: 16px; }
 
-  .copy-btn svg { width: 18px; height: 18px; }
-
-  .toast {
-    position: fixed;
-    bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px);
-    background: var(--text);
-    color: #fff;
-    padding: 12px 24px;
-    border-radius: 40px;
-    font-size: 14px;
-    font-weight: 500;
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
-    pointer-events: none;
-    display: flex; gap: 8px; align-items: center;
-    z-index: 999;
-  }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-  .toast-dot { width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0; }
-
-  /* hint */
-  .hint {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-top: 14px;
-    text-align: center;
-    line-height: 1.6;
-  }
+  .hint { font-size: 11px; color: var(--text-muted); margin-top: 12px; text-align: center; line-height: 1.6; }
   .hint strong { color: var(--green-dark); }
 
-  @media (max-width: 900px) {
-    .layout { grid-template-columns: 1fr; padding: 24px 20px 60px; gap: 28px; }
+  .toast {
+    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(16px);
+    background: var(--text); color: #fff; padding: 11px 22px; border-radius: 40px;
+    font-size: 13px; font-weight: 500; opacity: 0;
+    transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); pointer-events: none;
+    display: flex; gap: 8px; align-items: center; z-index: 999;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+
+  .page-footer {
+    text-align: center; padding: 20px 0 44px;
+    font-size: 11px; color: var(--text-muted);
+  }
+  .page-footer span { opacity: 0.7; }
+  .page-footer strong { color: var(--green-dark); font-weight: 600; }
+
+  @media (max-width: 920px) {
+    .layout { grid-template-columns: 1fr; padding: 24px 18px 60px; gap: 26px; }
     .preview-panel { position: static; }
-    header { padding: 16px 20px; }
+    header { padding: 14px 18px; }
   }
 </style>
 </head>
 <body>
 
 <header>
-  <img src="https://meritoros.pl/wp-content/themes/meritoros-justidea/assets/img/logo.svg" alt="Meritoros" onerror="this.style.display='none';document.getElementById('fallback-logo').style.display='block'">
-  <div id="fallback-logo" style="display:none;font-weight:700;font-size:18px;color:#55BD79;letter-spacing:-0.02em;">MERITOROS</div>
-  <span>Generator stopki e-mail</span>
+  <img src="https://meritoros.pl/wp-content/themes/meritoros-justidea/assets/img/logo.svg" alt="Meritoros"
+       onerror="this.style.display='none';document.getElementById('logo-fb').style.display='block'">
+  <div id="logo-fb" style="display:none;font-weight:700;font-size:17px;color:#55BD79;letter-spacing:-0.02em;">MERITOROS</div>
+  <span class="header-badge">Generator stopki e-mail</span>
 </header>
 
 <div class="layout">
@@ -254,9 +150,17 @@
     <div class="panel-header">
       <div class="dot"></div>
       <h2>Twoje dane</h2>
-      <p>Uzupełnij poniższe pola</p>
+      <p>Uzupełnij pola poniżej</p>
     </div>
     <div class="panel-body">
+
+      <div class="lang-tabs">
+        <button class="lang-tab active" data-lang="pl" onclick="setLang('pl')">🇵🇱 PL</button>
+        <button class="lang-tab" data-lang="en" onclick="setLang('en')">🇬🇧 EN</button>
+        <button class="lang-tab" data-lang="ua" onclick="setLang('ua')">🇺🇦 UA</button>
+        <button class="lang-tab" data-lang="ru" onclick="setLang('ru')">🇷🇺 RU</button>
+      </div>
+
       <div class="field">
         <label>Imię i nazwisko</label>
         <input type="text" id="name" placeholder="np. Jan Kowalski" oninput="updatePreview()">
@@ -267,12 +171,32 @@
       </div>
       <div class="field">
         <label>Adres e-mail</label>
-        <input type="email" id="email" placeholder="np. jan.kowalski@meritoros.pl" oninput="updatePreview()">
+        <input type="email" id="email" placeholder="np. jan.kowalski@meritoros.pl"
+               oninput="onEmailInput()" onblur="validateEmail()">
+        <div class="field-error" id="email-error">Podaj poprawny adres e-mail</div>
       </div>
       <div class="field">
-        <label>Telefon komórkowy</label>
-        <input type="tel" id="phone" placeholder="np. +48 600 000 000" oninput="updatePreview()">
+        <label>Telefon komórkowy <span style="font-weight:400;text-transform:none;opacity:0.65;font-size:10px;">(opcjonalnie)</span></label>
+        <div class="phone-row">
+          <select class="phone-prefix" id="phone-prefix" onchange="updatePreview()">
+            <option value="+48" selected>🇵🇱 +48</option>
+            <option value="+44">🇬🇧 +44</option>
+            <option value="+380">🇺🇦 +380</option>
+            <option value="+7">🇷🇺 +7</option>
+            <option value="+49">🇩🇪 +49</option>
+            <option value="+33">🇫🇷 +33</option>
+            <option value="+39">🇮🇹 +39</option>
+            <option value="+34">🇪🇸 +34</option>
+            <option value="+31">🇳🇱 +31</option>
+            <option value="+420">🇨🇿 +420</option>
+            <option value="+36">🇭🇺 +36</option>
+            <option value="+40">🇷🇴 +40</option>
+            <option value="+1">🇺🇸 +1</option>
+          </select>
+          <input type="tel" class="phone-number" id="phone" placeholder="600 000 000" oninput="updatePreview()">
+        </div>
       </div>
+
     </div>
   </div>
 
@@ -281,27 +205,23 @@
     <div class="panel-header">
       <div class="dot"></div>
       <h2>Podgląd</h2>
-      <p>Wygląd w kliencie pocztowym</p>
+      <p id="lang-label">🇵🇱 Wersja polska</p>
     </div>
     <div class="panel-body">
       <div class="email-chrome">
-        <div class="email-chrome-bar">
-          <span></span><span></span><span></span>
-        </div>
+        <div class="email-chrome-bar"><span></span><span></span><span></span></div>
         <div class="email-body">
-          <p class="greeting">Pozdrawiam</p>
-          <!-- signature preview rendered here -->
+          <p class="greeting" id="preview-greeting">Pozdrawiam</p>
           <div id="sig-preview"></div>
         </div>
       </div>
-
       <button class="copy-btn" onclick="copySignature()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
         </svg>
         Kopiuj stopkę do schowka
       </button>
-      <p class="hint">Po skopiowaniu wklej stopkę (<strong>Ctrl+V</strong> lub <strong>⌘+V</strong>) bezpośrednio do ustawień podpisu w Outlooku lub Gmail.</p>
+      <p class="hint">Wklej (<strong>Ctrl+V</strong> lub <strong>⌘+V</strong>) bezpośrednio do ustawień podpisu w Outlooku.</p>
     </div>
   </div>
 
@@ -313,31 +233,88 @@
 </div>
 
 <script>
-  function getValues() {
-    return {
-      name: document.getElementById('name').value.trim() || 'Imię Nazwisko',
-      title: document.getElementById('title').value.trim() || 'Stanowisko',
-      email: document.getElementById('email').value.trim() || 'email@meritoros.pl',
-      phone: document.getElementById('phone').value.trim(), // empty = hidden
-    };
+  const LANGS = {
+    pl: {
+      label: '🇵🇱 Wersja polska',
+      greeting: 'Pozdrawiam',
+      disclaimer: 'Uwaga: Niniejsza wiadomość może zawierać informacje poufne. Jeśli nie jesteś jej zamierzonym odbiorcą, prosimy o jej usunięcie.',
+      disclaimerHtml: 'Uwaga: Niniejsza wiadomo&#347;&#263; mo&#380;e zawiera&#263; informacje poufne. Je&#347;li nie jeste&#347; jej zamierzonym odbiorc&#261;, prosimy o jej usuni&#281;cie.',
+    },
+    en: {
+      label: '🇬🇧 English version',
+      greeting: 'Best regards',
+      disclaimer: 'Notice: This message may contain confidential information. If you are not the intended recipient, please delete it.',
+      disclaimerHtml: 'Notice: This message may contain confidential information. If you are not the intended recipient, please delete it.',
+    },
+    ua: {
+      label: '🇺🇦 Версія українською',
+      greeting: 'З повагою',
+      disclaimer: 'Увага: Це повідомлення може містити конфіденційну інформацію. Якщо ви не є його адресатом, будь ласка, видаліть його.',
+      disclaimerHtml: '&#1059;&#1074;&#1072;&#1075;&#1072;: &#1062;&#1077; &#1087;&#1086;&#1074;&#1110;&#1076;&#1086;&#1084;&#1083;&#1077;&#1085;&#1085;&#1103; &#1084;&#1086;&#1078;&#1077; &#1084;&#1110;&#1089;&#1090;&#1080;&#1090;&#1080; &#1082;&#1086;&#1085;&#1092;&#1110;&#1076;&#1077;&#1085;&#1094;&#1110;&#1081;&#1085;&#1091; &#1110;&#1085;&#1092;&#1086;&#1088;&#1084;&#1072;&#1094;&#1110;&#1102;. &#1071;&#1082;&#1097;&#1086; &#1074;&#1080; &#1085;&#1077; &#1108; &#1081;&#1086;&#1075;&#1086; &#1072;&#1076;&#1088;&#1077;&#1089;&#1072;&#1090;&#1086;&#1084;, &#1073;&#1091;&#1076;&#1100; &#1083;&#1072;&#1089;&#1082;&#1072;, &#1074;&#1080;&#1076;&#1072;&#1083;&#1110;&#1090;&#1100; &#1081;&#1086;&#1075;&#1086;.',
+    },
+    ru: {
+      label: '🇷🇺 Русская версия',
+      greeting: 'С уважением',
+      disclaimer: 'Внимание: Это сообщение может содержать конфиденциальную информацию. Если вы не являетесь его адресатом, просьба удалить его.',
+      disclaimerHtml: '&#1042;&#1085;&#1080;&#1084;&#1072;&#1085;&#1080;&#1077;: &#1069;&#1090;&#1086; &#1089;&#1086;&#1086;&#1073;&#1097;&#1077;&#1085;&#1080;&#1077; &#1084;&#1086;&#1078;&#1077;&#1090; &#1089;&#1086;&#1076;&#1077;&#1088;&#1078;&#1072;&#1090;&#1100; &#1082;&#1086;&#1085;&#1092;&#1080;&#1076;&#1077;&#1085;&#1094;&#1080;&#1072;&#1083;&#1100;&#1085;&#1091;&#1102; &#1080;&#1085;&#1092;&#1086;&#1088;&#1084;&#1072;&#1094;&#1080;&#1102;. &#1045;&#1089;&#1083;&#1080; &#1074;&#1099; &#1085;&#1077; &#1103;&#1074;&#1083;&#1103;&#1077;&#1090;&#1077;&#1089;&#1100; &#1077;&#1075;&#1086; &#1072;&#1076;&#1088;&#1077;&#1089;&#1072;&#1090;&#1086;&#1084;, &#1087;&#1088;&#1086;&#1089;&#1100;&#1073;&#1072; &#1091;&#1076;&#1072;&#1083;&#1080;&#1090;&#1100; &#1077;&#1075;&#1086;.',
+    }
+  };
+
+  let currentLang = 'pl';
+
+  function setLang(lang) {
+    currentLang = lang;
+    document.querySelectorAll('.lang-tab').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
+    document.getElementById('lang-label').textContent = LANGS[lang].label;
+    document.getElementById('preview-greeting').textContent = LANGS[lang].greeting;
+    updatePreview();
   }
 
   function escHtml(str) {
     return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
-  function phoneRow(v) {
-    if (!v.phone) return '';
+  function getValues() {
+    const phoneNum = document.getElementById('phone').value.trim();
+    const prefix   = document.getElementById('phone-prefix').value;
+    return {
+      name:  document.getElementById('name').value.trim()  || 'Imię Nazwisko',
+      title: document.getElementById('title').value.trim() || 'Stanowisko',
+      email: document.getElementById('email').value.trim() || 'email@meritoros.pl',
+      phone: phoneNum ? prefix + ' ' + phoneNum : '',
+    };
+  }
+
+  function isValidEmail(val) {
+    return !val || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+  }
+
+  function validateEmail() {
+    const input = document.getElementById('email');
+    const valid = isValidEmail(input.value.trim());
+    input.classList.toggle('error', !valid);
+    return valid;
+  }
+
+  function onEmailInput() {
+    // Only clear error while typing — show error on blur
+    const input = document.getElementById('email');
+    if (input.classList.contains('error')) validateEmail();
+    updatePreview();
+  }
+
+  function phoneRowSig(phone) {
+    if (!phone) return '';
     return `<tr>
       <td style="text-align:left;width:30px;height:22px;"><span style="font-family:Arial;font-size:12pt;color:rgb(36,36,36);"><img src="https://meritoros.pl/wp-content/uploads/2025/04/phone-icon.png" alt="mobilePhone" width="13" style="width:13px;margin:0px;"></span></td>
-      <td style="text-align:left;line-height:22px;color:black;height:22px;"><div style="text-align:left;line-height:22px;font-family:Arial;font-size:14px;color:black;">${escHtml(v.phone)}</div></td>
+      <td style="text-align:left;line-height:22px;color:black;height:22px;"><div style="text-align:left;line-height:22px;font-family:Arial;font-size:14px;color:black;">${escHtml(phone)}</div></td>
     </tr>`;
   }
 
   function buildSignatureHTML(v) {
-    // Exact HTML structure mirrored from Outlook Web rendering for 1:1 paste compatibility
+    const L = LANGS[currentLang];
     const sig = `
-<p style="text-align:left;background-color:rgb(255,255,255);margin-top:0px;margin-bottom:0px;"><span style="font-family:Arial;font-size:15px;color:rgb(36,36,36);">Pozdrawiam</span></p>
+<p style="text-align:left;background-color:rgb(255,255,255);margin-top:0px;margin-bottom:0px;"><span style="font-family:Arial;font-size:15px;color:rgb(36,36,36);">${L.greeting}</span></p>
 <table cellspacing="0" cellpadding="0" style="text-align:left;background-color:rgb(255,255,255);color:rgb(36,36,36);box-sizing:border-box;border-collapse:collapse;border-spacing:0px;">
 <tbody><tr><td colspan="5" style="text-align:left;">
   <table cellspacing="0" cellpadding="0" style="text-align:left;box-sizing:border-box;border-collapse:collapse;border-spacing:0px;">
@@ -357,14 +334,14 @@
           <td style="text-align:left;width:30px;height:22px;"><span style="font-family:Arial;font-size:12pt;color:rgb(36,36,36);"><img src="https://meritoros.pl/wp-content/uploads/2025/04/email-icon.png" alt="emailAddress" width="13" style="width:13px;margin:0px;"></span></td>
           <td style="text-align:left;line-height:22px;color:black;height:22px;"><div style="text-align:left;line-height:22px;font-family:Arial;font-size:14px;color:black;"><a href="mailto:${escHtml(v.email)}" style="color:black;text-decoration:none;margin:0px;">${escHtml(v.email)}</a></div></td>
         </tr>
-        ${phoneRow(v)}
+        ${phoneRowSig(v.phone)}
         <tr>
           <td style="text-align:left;width:30px;height:22px;"><span style="font-family:Arial;font-size:12pt;color:rgb(36,36,36);"><img src="https://meritoros.pl/wp-content/uploads/2025/04/link-icon.png" alt="website" width="13" style="width:13px;margin:0px;"></span></td>
           <td style="text-align:left;line-height:22px;color:black;height:22px;"><div style="text-align:left;line-height:22px;font-family:Arial;font-size:14px;color:black;"><a href="https://meritoros.pl/" style="color:black;text-decoration:none;margin:0px;">meritoros.pl</a></div></td>
         </tr>
         <tr>
           <td style="text-align:left;width:30px;height:22px;"><span style="font-family:Arial;font-size:12pt;color:rgb(36,36,36);"><img src="https://meritoros.pl/wp-content/uploads/2025/04/address-icon.png" alt="address" width="13" style="width:13px;margin:0px;"></span></td>
-          <td style="text-align:left;line-height:22px;color:black;height:22px;"><div style="text-align:left;line-height:22px;font-family:Arial;font-size:14px;">Aleja Pokoju 62/8, 31-564 Krak&oacute;w</div></td>
+          <td style="text-align:left;line-height:22px;color:black;height:22px;"><div style="text-align:left;line-height:22px;font-family:Arial;font-size:14px;color:black;">Aleja Pokoju 62/8, 31-564 Krak&oacute;w</div></td>
         </tr>
       </tbody></table>
     </td>
@@ -391,7 +368,7 @@
 </td></tr>
 <tr><td colspan="5" align="center">
   <br>
-  <p style="text-align:center;margin:0px;max-width:100%;font-size:12px;color:silver;"><span style="font-family:Arial;">Uwaga: Niniejsza wiadomo&#347;&#263; mo&#380;e zawiera&#263; informacje poufne. Je&#347;li nie jeste&#347; jej zamierzonym odbiorc&#261;, prosimy o jej usuni&#281;cie.</span></p>
+  <p style="text-align:center;margin:0px;max-width:100%;font-size:12px;color:silver;"><span style="font-family:Arial;">${L.disclaimerHtml}</span></p>
 </td></tr>
 </tbody></table>`;
 
@@ -399,61 +376,61 @@
   }
 
   function buildPreviewHTML(v) {
+    const L = LANGS[currentLang];
     return `
       <table cellpadding="0" cellspacing="0" style="font-family:Arial;font-size:14px">
         <tr>
           <td style="vertical-align:middle">
-            <div style="font-size:17px;font-weight:700;color:#111;margin-bottom:2px;font-family:Arial">${escHtml(v.name)}</div>
+            <div style="font-size:16px;font-weight:700;color:#111;margin-bottom:2px;font-family:Arial">${escHtml(v.name)}</div>
             <div style="font-size:13px;color:#444;margin-bottom:1px;font-family:Arial">${escHtml(v.title)}</div>
             <div style="font-size:13px;font-weight:600;color:#222;font-family:Arial">MERITOROS SA</div>
           </td>
-          <td style="width:24px"></td>
+          <td style="width:22px"></td>
           <td style="border-left:4px solid #44be78;width:1px">&nbsp;</td>
-          <td style="width:16px"></td>
+          <td style="width:14px"></td>
           <td style="vertical-align:middle">
             <table cellpadding="0" cellspacing="0">
               <tr style="height:22px">
-                <td style="width:24px;vertical-align:middle"><img src="https://meritoros.pl/wp-content/uploads/2025/04/email-icon.png" width="13"></td>
+                <td style="width:22px;vertical-align:middle"><img src="https://meritoros.pl/wp-content/uploads/2025/04/email-icon.png" width="13"></td>
                 <td style="font-size:13px;color:#111;font-family:Arial">${escHtml(v.email)}</td>
               </tr>
               ${v.phone ? `<tr style="height:22px">
-                <td style="width:24px;vertical-align:middle"><img src="https://meritoros.pl/wp-content/uploads/2025/04/phone-icon.png" width="13"></td>
+                <td style="width:22px;vertical-align:middle"><img src="https://meritoros.pl/wp-content/uploads/2025/04/phone-icon.png" width="13"></td>
                 <td style="font-size:13px;color:#111;font-family:Arial">${escHtml(v.phone)}</td>
               </tr>` : ''}
               <tr style="height:22px">
-                <td style="width:24px;vertical-align:middle"><img src="https://meritoros.pl/wp-content/uploads/2025/04/link-icon.png" width="13"></td>
+                <td style="width:22px;vertical-align:middle"><img src="https://meritoros.pl/wp-content/uploads/2025/04/link-icon.png" width="13"></td>
                 <td style="font-size:13px;color:#111;font-family:Arial">meritoros.pl</td>
               </tr>
               <tr style="height:22px">
-                <td style="width:24px;vertical-align:middle"><img src="https://meritoros.pl/wp-content/uploads/2025/04/address-icon.png" width="13"></td>
+                <td style="width:22px;vertical-align:middle"><img src="https://meritoros.pl/wp-content/uploads/2025/04/address-icon.png" width="13"></td>
                 <td style="font-size:13px;color:#111;font-family:Arial">Aleja Pokoju 62/8, 31-564 Kraków</td>
               </tr>
             </table>
           </td>
         </tr>
-        <tr><td colspan="5" height="20"></td></tr>
+        <tr><td colspan="5" height="18"></td></tr>
         <tr>
           <td colspan="5">
             <table cellpadding="0" cellspacing="0" style="width:100%">
               <tr>
-                <td><a href="https://meritoros.pl"><img src="https://meritoros.pl/wp-content/uploads/2025/04/logo.png" width="110" style="display:block"></a></td>
+                <td><img src="https://meritoros.pl/wp-content/uploads/2025/04/logo.png" width="105" style="display:block"></td>
                 <td style="text-align:right;vertical-align:middle">
-                  <a href="https://www.facebook.com/Meritoros"><img src="https://meritoros.pl/wp-content/uploads/2025/04/facebook-icon-dark.png" width="22" style="display:inline-block;margin-right:4px"></a>
-                  <a href="https://www.linkedin.com/company/meritoros/"><img src="https://meritoros.pl/wp-content/uploads/2025/04/linkedin-icon-dark.png" width="22" style="display:inline-block;margin-right:4px"></a>
-                  <a href="https://www.instagram.com/meritoros/"><img src="https://meritoros.pl/wp-content/uploads/2025/04/instagram-icon-dark.png" width="22" style="display:inline-block"></a>
+                  <img src="https://meritoros.pl/wp-content/uploads/2025/04/facebook-icon-dark.png" width="20" style="display:inline-block;margin-right:4px">
+                  <img src="https://meritoros.pl/wp-content/uploads/2025/04/linkedin-icon-dark.png" width="20" style="display:inline-block;margin-right:4px">
+                  <img src="https://meritoros.pl/wp-content/uploads/2025/04/instagram-icon-dark.png" width="20" style="display:inline-block">
                 </td>
               </tr>
             </table>
           </td>
         </tr>
-        <tr><td colspan="5" height="10"></td></tr>
+        <tr><td colspan="5" height="8"></td></tr>
         <tr>
-          <td colspan="5" style="font-size:11px;color:silver;text-align:center;font-family:Arial">
-            Uwaga: Niniejsza wiadomość może zawierać informacje poufne. Jeśli nie jesteś jej zamierzonym odbiorcą, prosimy o jej usunięcie.
+          <td colspan="5" style="font-size:10px;color:silver;text-align:center;font-family:Arial;line-height:1.5">
+            ${escHtml(L.disclaimer)}
           </td>
         </tr>
-      </table>
-    `;
+      </table>`;
   }
 
   function updatePreview() {
@@ -462,21 +439,19 @@
   }
 
   async function copySignature() {
+    if (!validateEmail()) {
+      document.getElementById('email').focus();
+      return;
+    }
     const v = getValues();
     const html = buildSignatureHTML(v);
-
     try {
       const blob = new Blob([html], { type: 'text/html' });
-      const clipItem = new ClipboardItem({ 'text/html': blob });
-      await navigator.clipboard.write([clipItem]);
+      await navigator.clipboard.write([new ClipboardItem({ 'text/html': blob })]);
     } catch(e) {
-      // fallback for older browsers
       const ta = document.createElement('textarea');
-      ta.value = html;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
+      ta.value = html; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
     }
     showToast();
   }
@@ -484,11 +459,15 @@
   function showToast() {
     const t = document.getElementById('toast');
     t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2800);
+    setTimeout(() => t.classList.remove('show'), 2600);
   }
 
-  // init preview on load
   updatePreview();
 </script>
+
+<footer class="page-footer">
+  <span>wykonał: </span><strong>Jakub Kołodziej</strong>
+</footer>
+
 </body>
 </html>
